@@ -15,16 +15,12 @@ stages:
       size: 62098
   transform:
     cmd: python src/transform_data.py data/clean/events.csv 
-      data/transformed/events.csv
+      data/transformed/events.csv data/transformed/events.csv
     deps:
     - path: data/clean/events.csv
       hash: md5
       md5: e90b1f5c14d8a0b7afdd6ad78dd40932
       size: 62098
-    - path: src/transform_data.py
-      hash: md5
-      md5: a0b15f59d08cb8f17d9a44afa0296677
-      size: 363
     outs:
     - path: data/transformed/events.csv
       hash: md5

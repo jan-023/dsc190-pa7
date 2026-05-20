@@ -50,4 +50,9 @@ timestamp_cleaned = timestamp_cleaned.dt.strftime("%Y-%m-%dT%H:%M:%S")
 df_clean["timestamp"] = timestamp_cleaned
 
 #df_clean.to_csv(output_path, index=False)
-df_clean.to_csv("data/clean/events.csv", index=False)
+# Ensure output directory exists
+OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+# Save cleaned data
+df.to_csv(OUTPUT_PATH, index=False)
+#df_clean.to_csv("data/clean/events.csv", index=False)
