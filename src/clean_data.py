@@ -10,7 +10,8 @@ df = pd.read_csv(input_path)
 df_clean = df.dropna()
 
 # Drop rows with invalid event_type
-#print(df_clean["event_type"].unique())
+valid_events = ['click', 'login', 'scroll', 'view', 'buy', 'purchase', 'test']
+df_clean = df_clean[df_clean["event_type"].isin(valid_events)]
 
 # Drop rows with non-positive duration_seconds
 df_clean = df_clean[df_clean["duration_seconds"] > 0]
