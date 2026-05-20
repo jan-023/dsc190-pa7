@@ -1,10 +1,11 @@
 import pandas as pd
 import sys
 
-input_path = sys.argv[1]
-output_path = sys.argv[2]
+#input_path = sys.argv[1]
+#output_path = sys.argv[2]
 
-df = pd.read_csv(input_path)
+#df = pd.read_csv(input_path)
+df = pd.read_csv("data/raw/events.csv")
 
 # Drop rows with any missing fields
 df_clean = df.dropna()
@@ -48,4 +49,5 @@ timestamp_cleaned.loc[reformat_time.index] = reformat_time
 timestamp_cleaned = timestamp_cleaned.dt.strftime("%Y-%m-%dT%H:%M:%S")
 df_clean["timestamp"] = timestamp_cleaned
 
-df_clean.to_csv(output_path, index=False)
+#df_clean.to_csv(output_path, index=False)
+df_clean.to_csv("data/clean/events.csv", index=False)
