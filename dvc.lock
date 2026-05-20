@@ -14,8 +14,7 @@ stages:
       md5: e90b1f5c14d8a0b7afdd6ad78dd40932
       size: 62098
   transform:
-    cmd: python src/transform_data.py data/clean/events.csv 
-      data/transformed/events.csv data/transformed/events.csv
+    cmd: python src/transform_data.py
     deps:
     - path: data/clean/events.csv
       hash: md5

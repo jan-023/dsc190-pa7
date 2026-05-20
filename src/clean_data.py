@@ -1,13 +1,11 @@
 import pandas as pd
 import sys
 from pathlib import Path
-OUTPUT_PATH = Path("data/clean/events.csv")
 
-#input_path = sys.argv[1]
-#output_path = sys.argv[2]
+input_path = Path("data/raw/events.csv")
+output_path = Path("data/clean/events.csv")
 
-#df = pd.read_csv(input_path)
-df = pd.read_csv("data/raw/events.csv")
+df = pd.read_csv(input_path)
 
 # Drop rows with any missing fields
 df_clean = df.dropna()
@@ -19,7 +17,7 @@ df_clean = df_clean[df_clean["event_type"].isin(valid_events)]
 # Drop rows with non-positive duration_seconds
 df_clean = df_clean[df_clean["duration_seconds"] > 0]
 
-#Normalize timetamp to ISO8601 (YYYY-MM-DDTHH:MM:SS)
+# Normalize timetamp to ISO8601 (YYYY-MM-DDTHH:MM:SS)
 timestamp = df_clean["timestamp"]
 ## Case 1: rows of format YYYY-MM-DD HH:MM:SS
 timestamp_cleaned = pd.to_datetime(timestamp, errors="coerce") 
@@ -51,10 +49,8 @@ timestamp_cleaned.loc[reformat_time.index] = reformat_time
 timestamp_cleaned = timestamp_cleaned.dt.strftime("%Y-%m-%dT%H:%M:%S")
 df_clean["timestamp"] = timestamp_cleaned
 
-#df_clean.to_csv(output_path, index=False)
 # Ensure output directory exists
-OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
+output_path.parent.mkdir(parents=True, exist_ok=True)
 
 # Save cleaned data
-df.to_csv(OUTPUT_PATH, index=False)
-#df_clean.to_csv("data/clean/events.csv", index=False)
+df_clean.to_csv(output_path, index=False)
