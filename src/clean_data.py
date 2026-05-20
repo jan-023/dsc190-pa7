@@ -51,6 +51,7 @@ df_clean["timestamp"] = timestamp_cleaned
 
 #df_clean.to_csv(output_path, index=False)
 # Ensure output directory exists
+OUTPUT_PATH = "data/clean/events.csv"
 OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
 
 # Save cleaned data
