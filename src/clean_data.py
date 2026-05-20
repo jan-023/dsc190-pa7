@@ -1,0 +1,50 @@
+import pandas as pd
+import sys
+
+input_path = sys.argv[1]
+output_path = sys.argv[2]
+
+df = pd.read_csv(input_path)
+
+# Drop rows with any missing fields
+df_clean = df.dropna()
+
+# Drop rows with invalid event_type
+#print(df_clean["event_type"].unique())
+
+# Drop rows with non-positive duration_seconds
+df_clean = df_clean[df_clean["duration_seconds"] > 0]
+
+#Normalize timetamp to ISO8601 (YYYY-MM-DDTHH:MM:SS)
+timestamp = df_clean["timestamp"]
+## Case 1: rows of format YYYY-MM-DD HH:MM:SS
+timestamp_cleaned = pd.to_datetime(timestamp, errors="coerce") 
+
+## Case 2: rows of format YYYY-MM-DDTHH:MM:SS
+## ex) 2026-01-19T18:57:56 
+reformat_time = timestamp[timestamp_cleaned.isna()]
+reformat_time = pd.to_datetime(reformat_time,
+                              format="%Y-%m-%dT%H:%M:%S",
+                              errors="coerce")
+timestamp_cleaned.loc[reformat_time.index] = reformat_time
+
+## Case 3: rows of format YYYY-MM-DDTHH:MM:SS.FFF
+reformat_time = timestamp[timestamp_cleaned.isna()]
+reformat_time = pd.to_datetime(reformat_time,
+                               format="%Y-%m-%dT%H:%M:%S.%f",
+                               errors="coerce")
+timestamp_cleaned.loc[reformat_time.index] = reformat_time
+
+## Case 4: rows of format MM/DD/YYYY HH:MM:SS
+## Ex) 01/25/2026 06:45:26
+reformat_time = timestamp[timestamp_cleaned.isna()]
+reformat_time = pd.to_datetime(reformat_time,
+                               format="%m/%d/%Y %H:%M:%S",
+                               errors="coerce")
+timestamp_cleaned.loc[reformat_time.index] = reformat_time
+
+## Convert all datetime values to ISO8601 format
+timestamp_cleaned = timestamp_cleaned.dt.strftime("%Y-%m-%dT%H:%M:%S")
+df_clean["timestamp"] = timestamp_cleaned
+
+df_clean.to_csv(output_path, index=False)
