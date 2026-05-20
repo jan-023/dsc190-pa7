@@ -6,7 +6,7 @@ stages:
     outs:
     - data/clean/events.csv
   transform:
-    cmd: python src/transform_data.py
+    cmd: python src/transform_data.py data/clean/events.csv data/transformed/events.csv
       data/transformed/events.csv
     deps:
     - data/clean/events.csv

@@ -1,17 +1,13 @@
 schema: '2.0'
 stages:
   clean:
-    cmd: python src/clean_data.py data/raw/events.csv data/clean/events.csv
+    cmd: python src/clean_data.py
     deps:
     - path: data/raw/events.csv
       hash: md5
       md5: 431ff8b1e99f6c5ac0a423d9e37ac2a9
       size: 73240
       isexec: true
-    - path: src/clean_data.py
-      hash: md5
-      md5: 354c30b7cc08d033d657cb5f86be9783
-      size: 1851
     outs:
     - path: data/clean/events.csv
       hash: md5
