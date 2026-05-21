@@ -26,17 +26,12 @@ stages:
       md5: 0624dc210bd45bba84842e546d3847cb
       size: 80165
   features:
-    cmd: python src/feature_data.py data/transformed/events.csv 
-      data/features/events.csv
+    cmd: python src/feature_data.py
     deps:
     - path: data/transformed/events.csv
       hash: md5
       md5: 0624dc210bd45bba84842e546d3847cb
       size: 80165
-    - path: src/feature_data.py
-      hash: md5
-      md5: 94cef81c2cc003ead279792653d414b5
-      size: 352
     outs:
     - path: data/features/events.csv
       hash: md5

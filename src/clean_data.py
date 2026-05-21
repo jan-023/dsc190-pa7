@@ -11,11 +11,14 @@ df = pd.read_csv(input_path)
 df_clean = df.dropna()
 
 # Drop rows with invalid event_type
-valid_events = ['click', 'login', 'scroll', 'view', 'buy', 'purchase', 'test']
+valid_events = ['click', 'login', 'scroll', 'view', 'purchase']
 df_clean = df_clean[df_clean["event_type"].isin(valid_events)]
 
-# Drop rows with non-positive duration_seconds
-df_clean = df_clean[df_clean["duration_seconds"] > 0]
+# Drop rows with non-positive integer duration_seconds
+df_clean = df_clean[
+        df_clean["duration_seconds"] > 0 &
+        df_clean["duration_seconds"].apply(lambda x: isinstance(x, int))
+        ]
 
 # Normalize timetamp to ISO8601 (YYYY-MM-DDTHH:MM:SS)
 timestamp = df_clean["timestamp"]
